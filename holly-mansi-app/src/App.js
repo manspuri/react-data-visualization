@@ -2,6 +2,31 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+let file = require('./data/snl_actor.csv');
+
+console.log('file', file);
+
+const readTextFile = (file) => {
+    let allText;
+    let rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = () => {
+        if(rawFile.readyState === 4) {
+            if(rawFile.status === 200 || rawFile.status === 0){
+                 allText = rawFile.responseText;
+                // console.log(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+
+    return allText;
+}
+
+let blob = readTextFile(file);
+
+console.log('blob', blob);
+
 class App extends Component {
   render() {
     return (
