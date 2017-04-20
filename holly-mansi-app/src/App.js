@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import file from './data/snl_actor.csv';
 
 let file = require('./data/snl_actor.csv');
 
