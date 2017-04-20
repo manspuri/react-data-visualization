@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import file from './data/snl_actor.csv';
+import { createStore } from 'redux'
 
-let file = require('./data/snl_actor.csv');
-
-console.log('file', file);
+let file1 = require('./data/snl_actor.csv');
+let file2 = require('./data/snl_actor_title.csv');
+let file3 = require('./data/snl_rating.csv');
 
 const readTextFile = (file) => {
     let allText;
@@ -15,7 +15,6 @@ const readTextFile = (file) => {
         if(rawFile.readyState === 4) {
             if(rawFile.status === 200 || rawFile.status === 0){
                  allText = rawFile.responseText;
-                // console.log(allText);
             }
         }
     }
@@ -24,9 +23,59 @@ const readTextFile = (file) => {
     return allText;
 }
 
-let blob = readTextFile(file);
+let snl_actor_data = readTextFile(file1);
+let snl_actor_title_data = readTextFile(file2);
+let snl_rating_data = readTextFile(file3);
 
-console.log('blob', blob);
+let actors = [];
+let actor_titles = [];
+let ratings = [];
+
+function createActor(row) {
+  var obj = {};
+  obj[row[0]] = row[1];
+  actors.push(obj);
+}
+
+function createActorTitle(row) {
+  var obj = {};
+  obj[row[3]] = row[1];
+  actor_titles.push(obj);
+}
+
+function createRating(row) {
+  var obj = {};
+  obj[row[1]] = row[49];
+  actor_titles.push(obj);
+}
+
+const Papa = require('babyparse');
+
+function readCSV(file, type) {
+  if (type === 'snl_actor_data') {
+    Papa.parse(file, {
+      step: function(row) {
+        createActor(row.data[0]);
+      }
+    });
+  } else if (type === 'snl_actor_title_data') {
+    Papa.parse(file, {
+      step: function(row) {
+        createActorTitle(row.data[0]);
+      }
+    });
+  } else if (type === 'snl_rating_data') {
+    Papa.parse(file, {
+      step: function(row) {
+        createRating(row.data[0]);
+      }
+    });
+  }
+}
+
+readCSV(snl_actor_data, 'snl_actor_data');
+readCSV(snl_actor_title_data, 'snl_actor_title_data');
+readCSV(snl_rating_data, 'snl_rating_data');
 
 class App extends Component {
   render() {
