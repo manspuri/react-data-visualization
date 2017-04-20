@@ -2,6 +2,33 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const imdb = require('imdb-api');
+
+
+// function getActorTitle(data) {
+//   let actorTitleArry = [];
+//   data.join('\n');
+//   data.map((r) => {
+//     let actor = {
+//       eid: data[1],
+//       aid: data[4]
+//     }
+//     actorTitleArry.push(actor);
+//   })
+//
+//   return actorTitleArry;
+// }
+//
+// setState{
+//   actors: getActorTitle(data)
+// }
+
+
+imdb.getById("tt0072562").then(things => {
+    console.log('show', things);
+});
+
+
 class App extends Component {
   render() {
     return (
