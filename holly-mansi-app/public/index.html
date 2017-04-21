@@ -19,6 +19,27 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>SNL Rumble</title>
+    <style>
+      .form-container:before {
+          content: ' ';
+          display: block;
+          position: absolute;
+          left: 28.2%;
+          top: 276px;
+          height: 400px;
+          width: 600px;
+          display: block;
+          z-index: 1;
+          opacity: 0.5;
+          background-image: url("%PUBLIC_URL%/images/boxing_ring.jpg");
+          background-repeat: no-repeat;
+          -ms-background-size: cover;
+          -o-background-size: cover;
+          -moz-background-size: cover;
+          -webkit-background-size: cover;
+          background-size: cover;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
