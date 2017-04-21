@@ -108,48 +108,10 @@ class App extends Component {
 
 
 render() {
-    return null;
-      // <div className="App">
-      //   <div className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <h2>SNL Rumble</h2>
-      //   </div>
-
-        // <label htmlFor="actor_one">
-        //   Select Actor
-        // </label>
-
-        // <select name="actor_one" value={this.state.actor_one}>
-        //     {this.state.actors.map((obj) => {
-        //       let key = obj.keys()[0];
-        //       return (
-        //           <option key={key} value={key} >
-        //             {obj[key]}
-        //           </option>
-        //       );
-        //     })}
-        // </select>
-
-        // <label
-        //     htmlFor="actor_two">
-        //     Select Actor
-        // </label>
-
-        // <select
-        //     name="actor_two"
-        //     value={this.state.actor_two}
-        //     {this.state.actors.map((obj) => {
-        //       let key = obj.keys()[0];
-        //       return (
-        //           <option key={key} value={key} >
-        //             {obj[key]}
-        //           </option>
-        //       );
-        //     })}
-        // </select>
-
-      // </div>
-    // );
+  return (
+    <div className="App">
+    </div>
+  );
   }
 }
 
