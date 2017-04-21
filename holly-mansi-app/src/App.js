@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const imdb = require('imdb-api');
 
 
 // function getActorTitle(data) {
@@ -24,9 +23,6 @@ const imdb = require('imdb-api');
 // }
 
 
-imdb.getById("tt0072562").then(things => {
-    console.log('show', things);
-});
 
 
 class App extends Component {
