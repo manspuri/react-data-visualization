@@ -1,13 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './images/snl_logo.jpg';
 import './App.css';
-import { createStore } from 'redux'
 
-let file1 = require('./data/snl_actor.csv');
-let file2 = require('./data/snl_actor_title.csv');
-let file3 = require('./data/snl_rating.csv');
+const Papa = require('babyparse');
+const actor_file = require('./data/snl_actor.csv');
+const actor_title_file = require('./data/snl_actor_title.csv');
+const rating_file = require('./data/snl_rating.csv');
 
-const readTextFile = (file) => {
+
+
+// let actor1Id;
+
+// let matchedEids = _.filter(actor_titles, (a) => {
+//   return a.aid === actor1id;
+// });
+
+
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      actor_one_avg: null,
+      actor_two_avg: null,
+      actors: this.loadActors(),
+      actor_titles: this.loadActorTitles(),
+      ratings: this.loadRatings()
+    }
+
+    console.log('state', this.state);
+
+  }
+
+
+  readTextFile(file) {
     let allText;
     let rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
@@ -21,75 +47,109 @@ const readTextFile = (file) => {
     rawFile.send(null);
 
     return allText;
-}
-
-let snl_actor_data = readTextFile(file1);
-let snl_actor_title_data = readTextFile(file2);
-let snl_rating_data = readTextFile(file3);
-
-let actors = [];
-let actor_titles = [];
-let ratings = [];
-
-function createActor(row) {
-  var obj = {};
-  obj[row[0]] = row[1];
-  actors.push(obj);
-}
-
-function createActorTitle(row) {
-  var obj = {};
-  obj[row[3]] = row[1];
-  actor_titles.push(obj);
-}
-
-function createRating(row) {
-  var obj = {};
-  obj[row[1]] = row[49];
-  actor_titles.push(obj);
-}
-
-const Papa = require('babyparse');
-
-function readCSV(file, type) {
-  if (type === 'snl_actor_data') {
-    Papa.parse(file, {
-      step: function(row) {
-        createActor(row.data[0]);
-      }
-    });
-  } else if (type === 'snl_actor_title_data') {
-    Papa.parse(file, {
-      step: function(row) {
-        createActorTitle(row.data[0]);
-      }
-    });
-  } else if (type === 'snl_rating_data') {
-    Papa.parse(file, {
-      step: function(row) {
-        createRating(row.data[0]);
-      }
-    });
   }
-}
 
-readCSV(snl_actor_data, 'snl_actor_data');
-readCSV(snl_actor_title_data, 'snl_actor_title_data');
-readCSV(snl_rating_data, 'snl_rating_data');
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+  loadActors() {
+    let actor_data = this.readTextFile(actor_file);
+    let actors = [];
+
+    Papa.parse(actor_data, {
+      step: function(row) {
+        var obj = {};
+        obj[row.data[0][0]] = row.data[0][1];
+        actors.push(obj);
+      },
+      complete: function() {
+        // console.log("All done with snl actor title data!");
+      }
+    });
+
+    return actors;
+  }
+
+  loadActorTitles() {
+    let actor_titles_data = this.readTextFile(actor_title_file);
+    let actor_titles = [];
+
+    Papa.parse(actor_titles_data, {
+      step: function(row) {
+        var obj = {
+          eid: row.data[0][1],
+          aid: row.data[0][3]
+        };
+        actor_titles.push(obj);
+      },
+      complete: function() {
+        // console.log("All done with snl actor title data!");
+      }
+    });
+
+    return actor_titles;
+  }
+
+  loadRatings() {
+    let ratings_data = this.readTextFile(rating_file);
+    let ratings = [];
+
+    Papa.parse(ratings_data, {
+      step: function(row) {
+        var obj = {};
+        obj[row.data[0][1]] = row.data[0][49];
+        ratings.push(obj);
+            },
+      complete: function() {
+        // console.log("All done with snl actor title data!");
+      }
+    });
+
+    return ratings;
+  }
+
+
+render() {
+    return null;
+      // <div className="App">
+      //   <div className="App-header">
+      //     <img src={logo} className="App-logo" alt="logo" />
+      //     <h2>SNL Rumble</h2>
+      //   </div>
+
+        // <label htmlFor="actor_one">
+        //   Select Actor
+        // </label>
+
+        // <select name="actor_one" value={this.state.actor_one}>
+        //     {this.state.actors.map((obj) => {
+        //       let key = obj.keys()[0];
+        //       return (
+        //           <option key={key} value={key} >
+        //             {obj[key]}
+        //           </option>
+        //       );
+        //     })}
+        // </select>
+
+        // <label
+        //     htmlFor="actor_two">
+        //     Select Actor
+        // </label>
+
+        // <select
+        //     name="actor_two"
+        //     value={this.state.actor_two}
+        //     {this.state.actors.map((obj) => {
+        //       let key = obj.keys()[0];
+        //       return (
+        //           <option key={key} value={key} >
+        //             {obj[key]}
+        //           </option>
+        //       );
+        //     })}
+        // </select>
+
+      // </div>
+    // );
   }
 }
 
