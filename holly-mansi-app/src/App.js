@@ -87,6 +87,7 @@ class App extends Component {
       step: function(row) {
         var obj = {
           eid: row.data[0][1],
+          sid: row.data[0][0],
           rating: row.data[0][49]
         };
         ratings.push(obj);
@@ -112,13 +113,8 @@ class App extends Component {
     // Get seasons and episodes that the actor has been in
     // Get ratings for those episodes
     // Average the ratings
-    var actor_ratings
-    
-
-
 
     this.calculateIndividualAverageRating(selected_actor_one);
-
   }
 
   calculateIndividualAverageRating(actorId) {
@@ -126,11 +122,24 @@ class App extends Component {
     var ratings = this.state.ratings;
     var selected_actor_one = this.state.selected_actor_one;
     // get episode ids for actor
-    // let episodeIds = _.filter(actor_titles, function(actor_title) { 
-    //   return actor_title.aid === selected_actor_one
-    //  });
-    let ratingResults = _.filter(ratings, function(rating) { return rating.eid === "13" })
-    console.log(ratingResults);
+    var actor_rating_totals = [];
+    let episodeIds = _.filter(actor_titles, function(actor_title) {
+      return actor_title.aid === selected_actor_one
+     });
+
+    var ratingsData = [];
+
+    episodeIds.map(function(e){
+      actorData[e.aid] = [];
+    })
+
+    episodeIds.map(function(e){
+      ratingsData[e.aid] = _.filter(ratings, function(rating) { return rating.eid === e.eid && rating.sid === e.sid })
+    })
+
+    console.log(ratingsData);
+    // let ratingResults = _.filter(ratings, function(rating) { return rating.eid === "13" })
+    // console.log(ratingResults);
     // episodeCount = episodeIds.length;
 
     // var total = 0
